@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Modello CNN</title>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">  <!-- CSS link -->
+    </head>
+    <body>
+        <div id="loading_screen">
+            <h1>Loading...</h1> 
+            <p>La pagina è in caricamento<br/>
+            <img src="/static/logo.gif" alt="">
+        </div>
+        <h1><a href="/">Predizione Prugne</a></h1>
+        <h3>Carica un'immagine</h3>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <input type="submit" value="Predici">
+            <!-- Pulsante per acquisire immagini dalla webcam -->
+            <button type="button" class="webcam-button" id="webcam-button">Usa Webcam</button>        
+        </form>
+        
+        {% if error_message %}
+            <div id="error-message">
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+        {% if prediction %}
+            <div class="model-prediction">
+                <div class="prediction-text">
+                    <div class="prediction-row">
+                        <h3>ResNet50:</h3>
+                        <p>{{ prediction[0] }}</p>
+                    </div>
+                    <div class="prediction-row">
+                        <h3>MobileNetV3:</h3>
+                        <p>{{ prediction[1] }}</p>
+                    </div>
+                    <div class="prediction-row">
+                        <h3>Modello 3:</h3>
+                        <p>{{ prediction[2] }}</p>
+                    </div>
+                    <div class="prediction-row">
+                        <h3>Modello 4:</h3>
+                        <p>{{ prediction[3] }}</p>
+                    </div>
+                </div>
+                <img class="prediction-image" src="{{ image_url }}" alt="Immagine caricata">
+            </div>
+        {% endif %}
+        <!-- Webcam Modal -->
+        <div id="webcam-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <video id="webcam-video" width="256" height="256" autoplay></video>
+                <canvas id="webcam-canvas" width="256" height="256" style="display: none;"></canvas>
+                <!-- Elemento per mostrare un'anteprima dell'immagine acquisita -->
+                <img id="webcam-preview" width="256" height="256" style="display: center;">
+                <button type="button" class="capture-button" id="capture-button" style="display: none;">Scatta Foto</button>
+                <!-- Pulsante per fare una previsione con l'immagine acquisita -->
+                <br/>
+                <button type="button" class="webcam-button" id="predict-button" style="display: none;">Predici Webcam</button>
+            </div>
+        </div>
+        <script src="/static/script.js"></script>
+    </body>
+</html>
