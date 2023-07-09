@@ -4,20 +4,13 @@ const captureButton = document.getElementById('capture-button');
 const webcamVideo = document.getElementById('webcam-video');
 const webcamCanvas = document.getElementById('webcam-canvas');
 const webcamPreview = document.getElementById('webcam-preview');
+const errorMessageElement = document.getElementById('error-message');
+
 let imageData = null;
 // Modal logic
 var modal = document.getElementById("webcam-modal");
 var span = document.getElementsByClassName("close")[0];
-
-window.addEventListener("load", nascondiLoadingScreen);
-
-function nascondiLoadingScreen() {
-    document.getElementById("loading_screen").style.display = 'none';
-}
-
-
 webcamButton.onclick = () => {
-    const errorMessageElement = document.getElementById('error-message');
     if (errorMessageElement) {
         errorMessageElement.style.display = 'none';
     }
@@ -124,7 +117,6 @@ predictButton.onclick = () => {
             document.body.appendChild(predictionContainer);
             
         }
-
         // Close the modal after prediction
         modal.style.display = "none";
         if (webcamVideo.srcObject) {
@@ -134,5 +126,4 @@ predictButton.onclick = () => {
             webcamVideo.srcObject = null;
         }
     });
-    
 }

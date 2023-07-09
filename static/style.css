@@ -174,36 +174,12 @@ a:hover {
     transition: background-color 0.3s ease;
   }
   
-.capture-button:hover {
+  .capture-button:hover {
     background-color: #894caf;
-}
+  }
 
-.Attributo stile {
+  .Attributo stile {
 
     display: none;
-}
+  }
 
-*, *::before, *::after {
-	box-sizing: border-box;
-}
-
-body {
-	padding: 0;
-	margin: 0;
-}
-
-.loading_screen
-{  
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  color: #FFF;  
-  text-align: center;
-  padding: 80px;
-  background-color: #000;
-  background-color: rgba(0, 0, 0, .5);
-  box-sizing: border-box;
-}

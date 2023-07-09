@@ -2,7 +2,7 @@ import time
 from flask import Flask, render_template, request
 import tensorflow as tf
 from PIL import Image
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 import tensorflow as tf
 import base64
 import numpy as np
@@ -42,6 +42,12 @@ def make_prediction(model, image):
     result = 'Buono' if prediction < 0.5 else 'Cattivo'
 
     return result
+# Funzione personalizzata per il filtro zip nel template
+def custom_zip(a, b):
+    return zip(a, b)
+
+# Aggiungi la funzione custom_zip all'ambiente di Jinja2
+app.jinja_env.globals['zip'] = custom_zip
 
 @app.route('/')
 def index():
@@ -54,33 +60,39 @@ def delete_old_images():
         if os.path.isfile(file_path) or os.path.islink(file_path):
             os.unlink(file_path)
 
-
 @app.route('/predict', methods=['POST'])
 def predict():
     # Delete any old images
     delete_old_images()
-    # Ricevi l'immagine caricata dall'utente nel form
-    image = request.files['image']
+    # Ricevi le immagini caricate dall'utente nel form
+    images = request.files.getlist('image')
 
-    # Verifica se è stata caricata un'immagine
-    if not image.filename:
-        error_message = "Nessuna immagine selezionata. Carica un'immagine e riprova."
-        return render_template('index.html',prediction=None, error_message=error_message)
+    # Verifica se sono state caricate delle immagini
+    if len(images) == 0 or not any(image.filename for image in images):
+        error_message = "Nessuna immagine selezionata. Carica delle immagini e riprova."
+        return render_template('index.html', predictions=None, error_message=error_message)
 
-    # Salva l'immagine in una cartella temporanea
-    image_path = 'static/images/' + image.filename
-    image.save(image_path)
-    image_url = '/static/images/' + image.filename
-
-    # Effettua le previsioni con i 4 modelli
     predictions = []
-    predictions.append(make_prediction(model1, image_path))
-    predictions.append(make_prediction(model2, image_path))
-    predictions.append(make_prediction(model3, image_path))
-    predictions.append(make_prediction(model4, image_path))
+    image_urls = []
 
-    # Passa l'URL dell'immagine e il risultato della previsione al template
-    return render_template('index.html', prediction=predictions, image_url=image_url)
+    for image in images:
+        # Salva l'immagine in una cartella temporanea
+        image.save('static/images/' + image.filename)
+        image_url = '/static/images/' + image.filename
+        image_urls.append(image_url)
+
+        # Effettua le previsioni con i 4 modelli
+        image_predictions = []
+        image_predictions.append(make_prediction(model1, 'static/images/' + image.filename))
+        image_predictions.append(make_prediction(model2, 'static/images/' + image.filename))
+        image_predictions.append(make_prediction(model3, 'static/images/' + image.filename))
+        image_predictions.append(make_prediction(model4, 'static/images/' + image.filename))
+
+        predictions.append(image_predictions)
+
+    # Passa gli URL delle immagini e i risultati delle previsioni al template
+    return render_template('index.html', predictions=predictions, image_urls=image_urls)
+
 
 @app.route('/predict-webcam', methods=['POST'])
 def predict_webcam():
@@ -112,6 +124,6 @@ def predict_webcam():
     predictions.append(make_prediction(model4, f'static/images/{image_name}'))
 
     return jsonify({'predictions': predictions, 'image_url': image_url})
-
 if __name__ == '__main__':
     app.run(debug=True)
+    
