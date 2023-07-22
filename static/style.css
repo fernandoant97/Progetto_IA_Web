@@ -101,15 +101,12 @@ a:hover {
     .prediction-row p {
         margin: 0;
     }
-    .webcam-button {
-        display: none;
-      }
 }
         /* Stile per il pulsante webcam */
 .webcam-button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #894caf;
+    background-color: #8a2be2;
     color: white;
     border: none;
     cursor: pointer;
@@ -117,7 +114,7 @@ a:hover {
 }
 
 .webcam-button:hover {
-    background-color: #894caf;
+    background-color: #5a1b98;
 }
 /* The Modal (background) */
 .modal {
@@ -133,13 +130,13 @@ a:hover {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal */
+/* Modal Content */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 45%; 
+    width: 80%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -161,13 +158,13 @@ a:hover {
   }
   
 .capture-button {
-    position: sticky;
+    position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #894caf;
+    background-color: #8a2be2;
     color: white;
     border: none;
     cursor: pointer;
@@ -175,11 +172,6 @@ a:hover {
   }
   
   .capture-button:hover {
-    background-color: #894caf;
-  }
-
-  .Attributo stile {
-
-    display: none;
+    background-color: #5a1b98;
   }
 

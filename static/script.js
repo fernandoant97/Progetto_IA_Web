@@ -4,16 +4,11 @@ const captureButton = document.getElementById('capture-button');
 const webcamVideo = document.getElementById('webcam-video');
 const webcamCanvas = document.getElementById('webcam-canvas');
 const webcamPreview = document.getElementById('webcam-preview');
-const errorMessageElement = document.getElementById('error-message');
-
 let imageData = null;
 // Modal logic
 var modal = document.getElementById("webcam-modal");
 var span = document.getElementsByClassName("close")[0];
 webcamButton.onclick = () => {
-    if (errorMessageElement) {
-        errorMessageElement.style.display = 'none';
-    }
     modal.style.display = "block";
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: { width: 256, height: 256 } })
@@ -32,8 +27,8 @@ captureButton.onclick = () => {
     imageData = webcamCanvas.toDataURL('image/png');
     // Mostra un'anteprima dell'immagine
     webcamPreview.src = imageData;
-    webcamPreview.style.display = 'inline-block';
-    predictButton.style.display = 'inline-block';
+    webcamPreview.style.display = 'block';
+    predictButton.style.display = 'block';
   }
 span.onclick = function() {
     modal.style.display = "none";
