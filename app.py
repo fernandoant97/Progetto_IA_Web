@@ -125,5 +125,5 @@ def predict_webcam():
 
     return jsonify({'predictions': predictions, 'image_url': image_url})
 if __name__ == '__main__':
-    app.run(debug=True, host= '192.168.1.115')
+    app.run(debug=True)
     
