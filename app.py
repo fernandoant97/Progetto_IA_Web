@@ -250,7 +250,6 @@ def predict_webcam():
         image_data = base64.b64decode(image_data.split(",")[1])
     else:
         # Gestisci il caso in cui non c'è una virgola nella stringa di dati dell'immagine
-        # Potresti, ad esempio, decodificare l'intera stringa, assumendo che sia già codificata in base64
         image_data = base64.b64decode(image_data)
 
     image = Image.open(io.BytesIO(image_data))
